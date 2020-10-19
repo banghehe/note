@@ -1,0 +1,577 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <meta name="google-site-verification" content="WC9FfWNfVRyJn8pWPXTHM4uCe_p-U13-iz0dV8A6puk" />
+    <meta charset="utf-8" />
+    <meta property="og:site_name" content="Real time white board for drawing on line, share photo and capture image from webcam" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://vrobbi-nodedrawing.herokuapp.com" />
+    <meta property="fb:admins" content="100004633505284" />
+    <meta property="og:title" content="Real time whiteboard collaborative with chat in html5 and websocket" />
+    <meta property="fb:app_id" content="508864332486444" />
+    <meta name="keywords" content="lavagna collaborativa, disegnare on line, applicazione real time, multiuser whiteboard, realtime application, drawing on line, drawing game, html5, web 2.0, software, internet, image capture, webcam" />
+    <meta name="description" content="lavagna multiutente condivisa in tempo reale, multiuser whiteboard real time application, draw on line and share your draw with all on the net" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Notepad and Chating</title>
+
+    <!-- The stylesheets -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/customscrollbar.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles1.css" />
+    <!-- <link rel="stylesheet" href="assets/css/mystyle.css" /> -->
+    <link href="js/jquery.minicolors.css" rel="stylesheet">
+    <script src="js/jquery-1.11.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/touch-punch.min.js"></script>
+    <script src="js/jquery.minicolors.js"></script>
+    <script src="js/bootbox.min.js"></script>
+    <script src="js/customscrollbar.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/3.8.0/jquery.selectBoxIt.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/3.8.0/jquery.selectBoxIt.min.js" type="text/javascript"></script>
+    <script src="js/jquery.countdown.js"></script>
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    <!-- Include Websync -->
+    <script type="text/javascript" src="icelink/Scripts/fm.js"></script>
+    <script type="text/javascript" src="icelink/Scripts/fm.websync.js"></script>
+    <script type="text/javascript" src="icelink/Scripts/fm.websync.subscribers.js"></script>
+    <script type="text/javascript" src="icelink/Scripts/fm.websync.chat.js"></script>
+    <!-- Include Websync -->
+    <!-- Include Icelink -->
+    <script type="text/javascript" src="icelink/Scripts/fm.icelink.js"></script>
+    <script type="text/javascript" src="icelink/Scripts/fm.icelink.webrtc.js"></script>
+    <script type="text/javascript" src="icelink/Scripts/fm.icelink.websync.js"></script>
+    <script type="text/javascript" src="icelink/app.js"></script>
+   
+    <script type="text/javascript" src="icelink/localMedia.js"></script>
+    <script type="text/javascript" src="icelink/signalling.js"></script>
+    <!-- Include Icelink -->
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //  $("#divrubber").draggable();    
+            //   document.getElementById('divrubber').style.display ='none';    
+            $('#divrubber').draggable();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="online-learning">
+        <div class="container-fluid">
+            <!-- Menu-top Begin -->
+            <div id="menu-top">
+                <div class="row">
+                    <div class="logo fl">
+                        <a href="#"><img src="assets/Images/Icons/49_ik_Logo.png" alt="Iklearn">
+                        </a>
+                    </div>
+                    <div class="fl">
+                        <span>
+                    Bussiness English Conversation
+                </span>
+                    </div>
+                    <div class="closeNav fr" id="close-session">
+                        <p id="hideTiming" class="fr">
+                            <img class="img-fluid fr" src="assets/Images/Icons/58_Close_for_SideMenu.png" alt="closeTime">
+                        </p>
+                    </div>
+                    <div class="hidden close-class style-popup-close">
+                        <div class="col-md-6 text-popup-close">End current session?</div>
+                        <div class="col-md-6 no-padding">
+                            <button type="button" class="red-btn">End Now</button>
+                            <button type="button" class="cancel-btn close-popup-close">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Menu-top End -->
+
+            <!-- Menu-main Begin -->
+            <div id="menu-main">
+                <div class="row">
+                    <div class="no-padding border-r">
+                        <div class="row">
+                            <div class="block-control fl">
+                                <p class="img-height" id="btn-undo">
+                                    <img src="assets/Images/Icons/01_Redo.png" alt="Undo">
+                                </p>
+                                <p class="img-height" id="btn-redo">
+                                    <img src="assets/Images/Icons/02_Undo.png" alt="Redo">
+                                </p>
+                                <p id="change-size-pencil">
+                                    <img src="assets/Images/Icons/03_Pen.png" alt="Pencil">
+                                </p>
+                                <div class="hidden pencil-class style-popup-pencil">
+                                    <ul id="pencils-body">
+                                        <li class="icon-layer close-popup-pencil">
+                                            <span style="line-height: 0;" class="icon-layer close-popup-pencil">Pen</span>
+                                        </li>
+                                        <li class="icon-layer btn-pencil hr1 active" data-pencil="1">
+                                            <!-- <hr style="height: 1px;"> -->
+                                            <img style="width: 5px;height: 5px" src="assets/Images/Icons/32_Size_1.png" alt="">
+                                        </li>
+                                        <li class="icon-layer btn-pencil hr2" data-pencil="2">
+                                            <!-- <hr style="height: 2px;"> -->
+                                            <img style="width: 8px;height: 8px" src="assets/Images/Icons/31_Size_2.png" alt="">
+                                        </li>
+                                        <li class="icon-layer btn-pencil hr3" data-pencil="3">
+                                            <!-- <hr style="height: 3px;"> -->
+                                            <img style="width: 11px;height: 11px" src="assets/Images/Icons/30_Size_3.png" alt="">
+                                        </li>
+                                        <li class="icon-layer btn-pencil hr4" data-pencil="4">
+                                            <!-- <hr style="height: 4px;"> -->
+                                            <img style="width: 14px;height: 14px" src="assets/Images/Icons/29_Size_4.png" alt="">
+                                        </li>
+                                        <li class="icon-layer btn-pencil hr5" data-pencil="5">
+                                            <!-- <hr style="height: 5px;"> -->
+                                            <img style="width: 18px;height: 18px" src="assets/Images/Icons/28_Size_5.png" alt="">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- message -->
+                                <div class="hidden  hello close-class style-popup-close"> 
+                                    <div class="col-md-9 text-popup-close">No layer is selected</div> 
+                                    <div class="col-md-3 no-padding"> <button type="button" class="red-btn scel-btn close-popup-close">Cancel</button> </div> 
+                                </div>
+                                <!-- end -->
+                                <p class="" id="change-eraser">
+                                    <img src="assets/Images/Icons/04_Eraser.png" alt="Eraser">
+                                </p>
+                                <div class="hidden eraser-class style-popup-eraser">
+                                    <ul id="erasers-body">
+                                        <li class="icon-layer close-popup-eraser">
+                                            <span>Eraser</span>
+                                        </li>
+                                        <li class="icon-layer btn-eraser" data-eraser="30">
+                                            <img style="width: 5px;height: 5px;" src="assets/Images/Icons/32_Size_1.png">
+                                        </li>
+                                        <li class="icon-layer btn-eraser" data-eraser="50">
+                                            <img style="width: 8px;height: 8px;" src="assets/Images/Icons/32_Size_1.png">
+                                        </li>
+                                        <li class="icon-layer btn-eraser" data-eraser="70">
+                                            <img style="width: 11px;height: 11px;" src="assets/Images/Icons/32_Size_1.png">
+                                        </li>
+                                        <li class="icon-layer btn-eraser" data-eraser="90">
+                                            <img style="width: 14px;height: 14px;" src="assets/Images/Icons/32_Size_1.png">
+                                        </li>
+                                        <li class="icon-layer btn-eraser" data-eraser="100">
+                                            <img style="width: 18px;height: 18px;" src="assets/Images/Icons/32_Size_1.png">
+                                        </li>
+                                        <li class="icon-layer btn-eraser-clear border-bottom">
+                                            <img src="assets/Images/Icons/04_Eraser-ALL.png">
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <p class="" id="change-color">
+                                    <img src="assets/Images/Icons/06_Color_Black.png" alt="Colors">
+                                </p>
+                                <div class="hidden color-class style-popup-color">
+                                    <ul id="colors-body">
+                                        <li class="icon-layer close-popup-color">
+                                            <span>Color</span>
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#ffffff"><img src="assets/icons/icon_Color_white.png">
+                                        </li>
+                                        <li class="icon-layer btn-color active" data-color="#000000"><img src="assets/icons/icon_Color_black.png">
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#0000FF"><img src="assets/icons/icon_Color_blue.png">
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#FF0000"><img src="assets/icons/icon_Color_red.png">
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#008000"><img src="assets/icons/icon_Color_green.png">
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#C500AF"><img src="assets/icons/icon_Color_light_purple.png">
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#FF8D15"><img src="assets/icons/icon_Color_orange.png">
+                                        </li>
+                                        <li class="icon-layer btn-color" data-color="#8E3AFF"><img src="assets/icons/icon_Color_purple.png">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- <div class="block-layer fl" > -->
+                                <p class="block-layer" id="add-layer">
+                                    <img src="assets/Images/Icons/14_Layers.png" alt="Layers">
+                                </p>
+                                <div class="hidden layer-class style-popup-layer">
+                                    <ul id="layers-body">
+                                        <li class="close-popup-layer">
+                                            <p id="layer-span">Layers</p>
+                                        </li>
+                                        <li class="icon-layer btn-add-layer">
+                                            <img src="assets/Images/Icons/33_Layer_Add.png">
+                                        </li>
+                                        <li class="icon-layer btn-delete-layer border-bottom">
+                                            <img src="assets/Images/Icons/34_Layer_Delete.png">
+                                        </li>
+                                        <li class="icon-layer icon-selector">
+                                            <img src="assets/Images/Icons/35_Layer1.png">
+                                        </li>
+                                        <li class="icon-layer icon-selector">
+                                            <img src="assets/Images/Icons/36_Layer2.png">
+                                        </li>
+                                        <li class="icon-layer icon-selector">
+                                            <img src="assets/Images/Icons/37_Layer3.png">
+                                        </li>
+                                        <li class="icon-layer icon-selector">
+                                            <img src="assets/Images/Icons/38_Layer4.png">
+                                        </li>
+                                        <li class="icon-layer icon-selector">
+                                            <img src="assets/Images/Icons/39_Layer5.png">
+                                        </li>
+                                        <li class="icon-layer icon-selector">
+                                            <img src="assets/Images/Icons/40_Layer6.png">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- </div> -->
+                                <!-- <div class="block-grid fl"> -->
+                                <p class="block-grid" id="icon-grid">
+                                    <img src="assets/Images/Icons/15_Grids.png" alt="Grid">
+                                </p>
+                                <div class="hidden grid-class style-popup-grid">
+                                    <ul id="grids-body">
+                                        <li class="icon-layer close-popup-grid">
+                                            <span>Grid</span>
+                                        </li>
+                                        <li class="icon-layer btn-color-grid" data-color="#FFFFFF"><img src="assets/Images/Icons/42_Grid_White.png">
+                                        </li>
+                                        <li class="icon-layer btn-color-grid" data-color="#DEDEDE"><img src="assets/Images/Icons/43_Grid_Gray.png">
+                                        </li>
+                                        <li class="icon-layer btn-color-grid" data-color="#E0DE8D"><img src="assets/Images/Icons/44_Grid_Yellow.png">
+                                        </li>
+                                        <li class="icon-layer btn-color-grid border-bottom" data-color="#8DE0DE"><img src="assets/Images/Icons/45_Grid_Blue.png">
+                                        </li>
+                                        <li class="icon-layer btn-grid" data-grid="1"><img src="assets/Images/Icons/46_Grid_Type1.png">
+                                        </li>
+                                        <li class="icon-layer btn-grid" data-grid="2"><img src="assets/Images/Icons/47_Grid_Type2.png">
+                                        </li>
+                                        <!-- <li class="icon-layer btn-grid" data-grid="3"><img
+                                                src="assets/Images/Icons/icon_BG_grid_3.png"></li> -->
+                                    </ul>
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                            <div class="block-image fl">
+                                <p>
+                                    <img src="assets/Images/Icons/16_Text_Box.png" alt="Upload">
+                                    <!-- <input id="file-input" class="form-control inputfile input-sm" type="file"> -->
+                                </p>
+                                <p>
+                                    <img src="assets/Images/Icons/17_Upload_Worksheet.png" alt="Upload">
+                                    <!-- <input id="file-input" class="form-control inputfile input-sm" type="file"> -->
+                                </p>
+                                <p>
+                                    <img src="assets/Images/Icons/18_Upload_Image.png" alt="Upload">
+                                    <input id="file-input" class="form-control inputfile input-sm" type="file">
+                                </p>
+                                <p id="icon-screenshot">
+                                    <img src="assets/Images/Icons/19_ScreenShot.png" alt="ScreenShots">
+                                </p>
+                                <div class="hidden screenshot-class style-popup-screenshot">
+                                    <p class="name-popup">Capture Images</p>
+                                    <ul>
+                                        <li class="item-screenshot" style=" padding-right: 20px">
+                                            <input type="checkbox" class="checkbox-style" id="screenshot-check" value="" name="screenshot">
+                                        </li>
+                                        <li class="item-screenshot" style=" width: 100px;">
+                                            <form method="get">
+                                                <select class="select-box-it form-control" id="select-screenshot">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="4">4</option>
+                                                    <option value="8">8</option>
+                                                    <option value="20">20</option>
+                                                    <option value="60">60</option>
+                                                    <option value="120">120</option>
+                                                    <option value="300">300</option>
+                                                    <option value="600">600</option>
+                                                </select><span class="style-sec">Sec.</span>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <p id="icon-screenshot">
+                                    <img src="assets/Images/Icons/20_Upload_Video_Player.png" alt="ScreenShots">
+                                </p>
+                            </div>
+                            <!-- <div class="block-time fl"> -->
+                            <p class="block-time hidden">
+                                <img src="assets/icons/icon_Timer.png" alt="Timer">
+                            </p>
+                            <span class="time-class fr">00:00:00</span>
+                            <div class="expire-class style-popup-extime hidden">
+                                <div class="col-md-2"><img src="assets/icons/icon_Warning.png">
+                                </div>
+                                <div class="col-md-10">Current session has been expired. Please be advised there will be an extra charge.
+                                </div>
+
+                            </div>
+                            <!-- </div> -->
+                            <!-- </div> -->
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Menu-main End -->
+
+            <!-- wrapper_contend Begin -->
+            <div class="row wrapper_contend" id="wrapper">
+                <div class="col-8 main-content">
+                    <div id="cursors">
+                        <!-- The mouse pointers will be created here -->
+                    </div>
+                    <div id="panel">
+
+                    </div>
+                    <div id="divrubber" title="drag to erase with checkbox signed" alt="drag to erase with checkbox signed">
+                        <div id="controlrubber" class="css-img-erase"></div>
+                    </div>
+                    <div id="videoChat" class="hidden" style="display: block;">
+                        <img id="closeVideo" src="assets/icons/icon_CLOSE.png" alt="Close">
+                        <div id="loading"></div>
+                        <!--<div id="video" style="width: 100%; height: 100%"></div>-->
+                        <div class="people-list">
+                            <div class="people-list-inner">
+                                <div class="teacher">
+                                    <p>
+                                        <img src="assets/Images/people/teacher.png" />
+                                    </p>
+                                </div>
+                                <div class="student-list">
+                                    <div class="student-item">
+                                        <p>
+                                            <img src="assets/Images/people/student-1.png" />
+                                        </p>
+                                    </div>
+                                    <div class="student-item">
+                                        <p>
+                                            <img src="assets/Images/people/student-2.png" />
+                                        </p>
+                                    </div>
+                                    <div class="student-item">
+                                        <p>
+                                            <img src="assets/Images/people/student-3.png" />
+                                        </p>
+                                    </div>
+                                    <div class="student-item">
+                                        <p>
+                                            <img src="assets/Images/people/student-4.png" />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <!-- opacitySideMenu Begin -->
+
+                    <div class="opacitySideMenu">
+                        <div class="opacitySideMenu-inner">
+                            <div class="opactiyPercentage">
+                                <p id="rangevalue"></p><span>%</span>
+                            </div>
+                            <div class="editBar">
+
+                                <input type="range" class="slider" name="bgopacity" id="bgopacity" value="100" min="0" max="100" step="1">
+
+                            </div>
+                            <div class="closeSideMenu">
+                                <p>
+                                    <img class="img-fluid fr hideSideMenu" src="assets\Images\Icons\58_Close_for_SideMenu.png" alt="close">
+                                </p>
+                                <p>
+                                    <img class="img-fluid fr showSideMenu hidden" src="assets\Images\Icons\63_Open_for_SideMenu.png" alt="open">
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- opacitySideMenu End -->
+                    <div id="videoAndMic" class="hidden">
+                        <div class="turnVideo hidden">
+                            <p class="On_Video hidden"><img src="assets/Images/Icons/51_Video_Chat_ON.png" alt=""> <span>Video Is On</span> </p>
+                            <p class="Off_Video hidden"><img src="assets/Images/Icons/50_Video_Chat_OFF.png" alt=""><span>Video Is Off</span> </p>
+                        </div>
+                        <div class="turnMic hidden">
+                            <p class="On_Mic hidden"><img src="assets/Images/Icons/51_Video_Chat_ON.png" alt=""> <span>Mic Is On</span> </p>
+                            <p class="Off_Mic hidden"><img src="assets/Images/Icons/50_Video_Chat_OFF.png" alt=""> <span>Mic Is Off</span></p>
+                        </div>
+                    </div>
+                    <!-- wrap-sidebar-left Begin -->
+                    <div class="wrap-sidebar-left">
+                        <!-- Sidebar Begin -->
+                        <div class="menu-tray">
+                            <!-- Participants sidebar Begin -->
+                            <div class="attend-list style-scrollbar">
+                                <div class="row">
+                                    <p class="tit-head">Participants <span>(6)<span></p>
+                                </div>
+                                <div class="row list_participants">
+                                    <ul>
+                                            <li class="item-list">
+                                                <div class="avatar-attend">
+                                                    <img src="assets\Images\Icons\61_Profile_User.png" alt="Attendee List">
+                                                </div>
+                                                <p class="text-overfl">Linda Chung</p>
+                                            </li>
+                                            <li class="item-list">
+                                                <div class="avatar-attend">
+                                                    <img src="assets\Images\Icons\62_Profile_User.png" alt="Attendee List">
+                                                </div>
+                                                <p class="text-overfl">Linda Oakland</p>
+                                            </li>
+                                            <li class="item-list">
+                                                <div class="avatar-attend">
+                                                    <img src="assets\Images\Icons\61_Profile_User.png" alt="Attendee List">
+                                                </div>
+                                                <p class="text-overfl">Steve Rogers</p>
+                                            </li>
+                                            <li class="item-list">
+                                                <div class="avatar-attend">
+                                                    <img src="assets\Images\Icons\62_Profile_User.png" alt="Attendee List">
+                                                </div>
+                                                <p class="text-overfl">Mike Jr.Jackson</p>
+                                            </li>
+            
+                                    </ul>
+                                </div>
+                                
+                                <div class="clearfix"></div>
+                            </div>
+                            <!-- Participants sidebar End -->
+
+                            <!-- Video_list sidebar Begin -->
+                            <div class="attend-video-list">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="participantLowerBottom">
+                                            <img class="img-fluid" src="assets/Images/Icons/56_Status_TooFast.png" alt="">
+                                        </div>
+                                        <div class="participantLowerBottom">
+                                            <img class="img-fluid" src="assets/Images/Icons/56_Status_TooFast.png" alt="">
+                                        </div>
+                                        <div class="participantLowerBottom">
+                                            <img class="img-fluid" src="assets/Images/Icons/56_Status_TooFast.png" alt="">
+                                        </div>
+                                        <div class="participantLowerBottom">
+                                            <img class="img-fluid" src="assets/Images/Icons/56_Status_TooFast.png" alt="">
+                                        </div>
+                                        <div class="participantLowerBottom">
+                                            <img class="img-fluid" src="assets/Images/Icons/56_Status_TooFast.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Video_list sidebar End -->
+
+                             <!-- Chat_box sidebar Begin -->
+                            <div class="chat_box">
+                                    <div class="ui-resizable-handle ui-resizable-n"></div>
+                                    <div id="chat" class="message-list">
+                                            <ul id="testichat" class="inbox-message">
+                                            </ul>                        
+                                    </div>
+                                        <div class="message-send">
+                                            <div class="float-left message-input">
+                                                <input type="text" id="scrivi" rows="1" name="message-input" placeholder="Type Your Message Here..."></input>
+                                                <input type="hidden" id="emoji" name="emoji" value="understand"/>
+                                            </div>
+                
+                                            <div class="button-send float-left">
+                                                <div id="btn-send"><img src="assets\Images\Icons\52_Send_Arrow_Icon.png" alt="Chat Button"></div>
+                                                <div class="status-selector">
+                                                    <img src="assets/Images/Icons/53_Status_Defualt.png" alt="Emoji_Understand">
+                                                </div>
+                                            </div>
+                                            <div class="status-selector-bar" style="display: none;">
+                                                    <ul>
+                                                        <li class="ic-fast" data-type="fast"><p>Too Fast</p><img src="assets\Images\Icons\56_Status_TooFast.png" alt="Emoji_Too_Fast">
+                                                        </li>
+                                                        <li class="ic-confused" data-type="confused"><p>Confused</p><img src="assets\Images\Icons\55_Status_Confused.png" alt="Emoji_Confused"></li>
+                                                        <li class="ic-understand" data-type="understand"><p>Good</p><img src="assets\Images\Icons\54_Status_Good.png" alt="Emoji_Understand"></li>
+                                                    </ul>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        
+
+                            </div>
+                        <!-- Chat_box sidebar End -->
+                    </div>
+                    </div>
+                <!-- wrap-sidebar-left End -->
+            </div>
+        </div>
+        <!-- wrapper_contend End -->
+
+        <div class="row bottom-menu">
+
+            <div class="actionOnRight fr">
+                <div class="block-chat">
+                    <p class="student_list">
+                        <img src="assets/Images/Icons/21_Participants.png" alt="List">
+                    </p>
+                    <p class="video_list">
+                        <img src="assets/Images/Icons/22_Video_Chat.png" alt="Video">
+                    </p>
+
+                    <p id="catturacam" class="hidden">
+                        <img src="assets/Images/Icons/icon_Tutor_Video.png" alt="Studentst">
+                    </p>
+                </div>
+                <div class="stl-border">
+                    <p class="pop-chat">
+                        <img src="assets/Images/Icons/23_Chat.png" alt="Chat">
+                    </p>
+                </div>
+                <div class="block-video">
+                    <!--                     <p>
+                                                <img src="assets/Images/Icons/24_Video_ON.png" alt="Video">
+                                            </p> -->
+                    <p class="switch" id="toggleVideoMute">
+                        <img src="assets/Images/Icons/25_Video_OFF.png" alt="Video">
+                    </p>
+                </div>
+                <div class="block-voice">
+                    <!--                     <p>
+                                                <img src="assets/Images/Icons/icon_VOICE.png" alt="Voice">
+                                            </p> -->
+                    <p class="switch" id="toggleAudioMute">
+                        <img src="assets/Images/Icons/27_Mike_OFF.png" alt="Voice">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="popUpBtn">
+            <p>
+                <img class="fl img-fluid clickToHideBottom" src="assets/Images/Icons/59_Bottom_Menu_Close.png" alt="Hide">
+            </p>
+            <p>
+                <img class="fl img-fluid clickToShowBottom" src="assets/Images/Icons/60_Bottom_Menu_Open.png" alt="Show">
+            </p>
+        </div>
+    </div>
+    </div>
+    <!-- JavaScript includes. Notice that socket.io.js is served by node.js -->
+    <script src="socket.io/socket.io.js"></script>
+    <!-- <script src="assets/js/script.js"></script> -->
+    <script src="assets/js/script3.js"></script>
+    <script src="assets/js/script2.js"></script>
+
+</body>
+
+</html>
